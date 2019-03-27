@@ -49,3 +49,22 @@ with open("report1.csv", 'w') as file:
     for i in data:
         print(i[0], i[1], i[2])
         file.write("{0},{1},{2}\n".format(i[0], i[1], i[2]))
+
+words = []
+
+# Test - 특정 text 파일에서 단어 추출 
+for i in range(1,2):
+    with open("textfiles\pat_{0}.text".format(i), 'r') as file:
+#with open("textfiles\sample00.txt", 'r') as file:
+        for line in file.readlines():  # 예외 사항이 너무 많다. text 6,7,8 비교.
+            x = line.split() # 각 줄 - 띄어쓰기로 구분해서 리스트에 각각 넣고
+            for i in range(len(x)):
+                if x[i] in words:
+                    pass
+                else:
+                    words.append(x[i])
+
+    with open("textfiles\words{0}.text".format(i), 'w') as file:
+        for i in range(len(words)):
+            x = words[i]+"\n"
+            file.write(x)
