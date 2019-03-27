@@ -20,5 +20,5 @@ for i in range(1,2):
             x = str(y[i])  #  +"\n"
             file.write(x+ "\n")
 
-#print(words)
+# 2열의 count 수로 오름차순하기 ( sort? ) / 필요 없는 문자 빼는 방법? 
 
