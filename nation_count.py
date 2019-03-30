@@ -24,3 +24,6 @@ print(kr_count)
 print(jp_count)
 print(us_count)
 print(ep_count)
+
+
+# 확인 : csv 안 각 셀안에도 "," 가 있을수 있어 split(',') 사용 하지 말것
