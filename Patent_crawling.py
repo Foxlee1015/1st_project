@@ -1,4 +1,7 @@
+import time
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 
 # a = keywords, b = number of patents
@@ -14,8 +17,21 @@ def Get_patent_data(): #def Get_patent_data(a , b):
     da = [] # 출원일
     inv = []  # 출원인
     abs = [] # 요약
-    for i in range(0, 1): # 검새하고자하는 특허의 수  //  # 일단 테스트로 하나만, range 변경 필요!
-        driver.find_element_by_xpath('//*[@id="rso"]/div/div/div[{0}]/div/div/div[1]/a/h3'.format(i+1)).click()  #// 1, 5, 10 번째 특허 데이터 가져오기 성공
+    for i in range(0, 10): # 검새하고자하는 특허의 수  //  # 일단 테스트로 하나만, range 변경 필요!
+        element = driver.find_element_by_xpath('//*[@id="rso"]/div/div/div[{0}]/div/div/div[1]/a/h3'.format(i+1))
+        ActionChains(driver) \
+        .key_down(Keys.CONTROL) \
+        .click(element) \
+        .key_up(Keys.CONTROL) \
+        .perform()
+
+        # driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 't')
+        # driver.find_element_by_xpath('//*[@id="rso"]/div/div/div[{0}]/div/div/div[1]/a/h3'.format(i+1)).click()  #// 1, 5, 10 번째 특허 데이터 가져오기 성공
+
+        #print(driver.window_handles)
+        driver.switch_to.window(driver.window_handles[-1])
+        time.sleep(5)
+
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
         title = soup.select('#title')   # 타이틀
@@ -37,7 +53,7 @@ def Get_patent_data(): #def Get_patent_data(a , b):
         driver.implicitly_wait(10)
 
         abstract = soup.find('abstract')  # 요약
-        abs_text = abstract.text[1:]     # abstract.text 앞의 \n 제거
+        abs_text = abstract.text[1:-2]     # abstract.text 앞의 \n 제거
         abs.append(abs_text)
 
         print("Title :", t[i], sep=" ")
@@ -45,7 +61,15 @@ def Get_patent_data(): #def Get_patent_data(a , b):
         print("Application filed by :", inv[i], sep=" ")
         print("Abstract :", abs[i], sep=" ")
 
-        #driver.back()
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
+        # driver.back()
         #driver.execute_script("window.history.go(-1)")
+        print("Loop", str(i))
+
+    print(t)
+    print(da)
+    print(inv)
+    print(abs)
 
 Get_patent_data()
