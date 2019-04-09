@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
+import csv
+import matplotlib.pyplot as plt
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
-
 
 # a = keywords, b = number of patents
 def Get_patent_data(): #def Get_patent_data(a , b):
@@ -73,8 +74,9 @@ def Get_patent_data(): #def Get_patent_data(a , b):
     print(da)
     print(inv)
     print(abs)
-    with open("report.csv", 'w') as file:
-    #with open("report.csv", 'w', encoding: "utf-9")
+    
+    with open("report.csv", 'w') as file:  # -> 오류 뜨는 부분 전까지 출력됨
+    #with open("report.csv", 'w', encoding: "utf-9")  ->  오류는 안뜨나 한글이 다 꺠짐
         file.write('명칭, 출원일, 출원인, 요약\n')
         for k in range(len(t)):
             if "," in t[k]:
@@ -86,9 +88,34 @@ def Get_patent_data(): #def Get_patent_data(a , b):
             if "," in abs[k]:
                 abs[k] = abs[k].replace(","," ")
             file.write("{0},{1},{2},{3}\n".format(t[k], da[k], inv[k], abs[k]))
+    
 
+    #출원일에서 출원년도만 저장하기
+    with open("report_year.csv", 'w') as file:
+        for s in range(len(da)):
+            file.write("{0},{1}\n".format(s+1,da[s][:4]))
 
 Get_patent_data()
+
+# 연도 파일 열어서 횟수로 다시 저장
+f = open("report_year.csv", 'r')
+lines = csv.reader(f)
+years = list(range(1960,2020))
+year_count = [0 for i in range(1960,2020)]
+for line in lines:
+    for i in range(len(years)):
+        if int(line[1]) == years[i]:
+            year_count[i] += 1
+
+with open("report_year_count.csv", 'w') as file:
+    file.write('년도, 횟수\n')
+    for i in range(len(years)):
+        file.write("{0},{1}\n".format(years[i], year_count[i]))
+
+# 그래프
+plt.plot(years, year_count)
+plt.axis([1960, 2020, 0, 8])
+plt.show()
 
 # t, da, inv, abs -> 우분투 mysql 에 저장하기
 
