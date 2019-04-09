@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -18,7 +19,7 @@ def Get_patent_data(): #def Get_patent_data(a , b):
     da = [] # 출원일
     inv = []  # 출원인
     abs = [] # 요약
-    for j in range(1, 10): # pages  -> start from j+1 = 2
+    for j in range(1, 3): # pages  -> start from j+1 = 2
         for i in range(0, 10): # 검새하고자하는 특허의 수  //  # 일단 테스트로 하나만, range 변경 필요!
             element = driver.find_element_by_xpath('//*[@id="rso"]/div/div/div[{0}]/div/div/div[1]/a/h3'.format(i+1))
             ActionChains(driver) \
@@ -65,22 +66,25 @@ def Get_patent_data(): #def Get_patent_data(a , b):
 
             driver.close()
             driver.switch_to.window(driver.window_handles[0])
-            print("Loop_page_", str(j), "_",str(i) )
+            print("Loop_page_", str(j), "_",str(i+1) )
         driver.find_element_by_xpath('// *[ @ id = "nav"] / tbody / tr / td[{0}] / a'.format(j + 2)).click()
         time.sleep(5)
-
-    with open("report.csv", 'w', "utf-8") as file:
+    print(t)
+    print(da)
+    print(inv)
+    print(abs)
+    with open("report.csv", 'w') as file:
+    #with open("report.csv", 'w', encoding: "utf-9")
         file.write('명칭, 출원일, 출원인, 요약\n')
         for k in range(len(t)):
             if "," in t[k]:
-                t[k] = t[k].replace(",","/")
+                t[k] = t[k].replace(","," ")
             if "," in da[k]:
-                da[k] = da[k].replace(",", "/")
+                da[k] = da[k].replace(",", " ")
             if "," in inv[k]:
-                inv[k] = inv[k].replace(",", "/")
+                inv[k] = inv[k].replace(",", " ")
             if "," in abs[k]:
-                abs[k] = abs[k].replace(",","/")
-
+                abs[k] = abs[k].replace(","," ")
             file.write("{0},{1},{2},{3}\n".format(t[k], da[k], inv[k], abs[k]))
 
 
