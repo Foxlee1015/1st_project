@@ -56,11 +56,12 @@ def Get_patent_data(): #def Get_patent_data(a , b):
             else:
                 abs_text = abstract.text[1:-2]     # abstract.text 앞의 \n 제거
             abs.append(abs_text)
+            x = (j-1)*10 + i
 
-            print("Title :", t[i], sep=" ")
-            print("Publication date :", da[i], sep=" ")
-            print("Application filed by :", inv[i], sep=" ")
-            print("Abstract :", abs[i], sep=" ")
+            print("Title :", t[x], sep=" ")
+            print("Publication date :", da[x], sep=" ")
+            print("Application filed by :", inv[x], sep=" ")
+            print("Abstract :", abs[x], sep=" ")
 
             driver.close()
             driver.switch_to.window(driver.window_handles[0])
@@ -68,10 +69,18 @@ def Get_patent_data(): #def Get_patent_data(a , b):
         driver.find_element_by_xpath('// *[ @ id = "nav"] / tbody / tr / td[{0}] / a'.format(j + 2)).click()
         time.sleep(5)
 
-    with open("report.csv", 'w') as file:
+    with open("report.csv", 'w', "utf-8") as file:
         file.write('명칭, 출원일, 출원인, 요약\n')
         for k in range(len(t)):
-            #print(i[0], i[1], i[2])
+            if "," in t[k]:
+                t[k] = t[k].replace(",","/")
+            if "," in da[k]:
+                da[k] = da[k].replace(",", "/")
+            if "," in inv[k]:
+                inv[k] = inv[k].replace(",", "/")
+            if "," in abs[k]:
+                abs[k] = abs[k].replace(",","/")
+
             file.write("{0},{1},{2},{3}\n".format(t[k], da[k], inv[k], abs[k]))
 
 
