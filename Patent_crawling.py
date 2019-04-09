@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 
+
 # a = keywords, b = number of patents
 def Get_patent_data(): #def Get_patent_data(a , b):
     driver = webdriver.Chrome('chromedriver_win32\chromedriver')
@@ -17,59 +18,64 @@ def Get_patent_data(): #def Get_patent_data(a , b):
     da = [] # 출원일
     inv = []  # 출원인
     abs = [] # 요약
-    for i in range(0, 10): # 검새하고자하는 특허의 수  //  # 일단 테스트로 하나만, range 변경 필요!
-        element = driver.find_element_by_xpath('//*[@id="rso"]/div/div/div[{0}]/div/div/div[1]/a/h3'.format(i+1))
-        ActionChains(driver) \
-        .key_down(Keys.CONTROL) \
-        .click(element) \
-        .key_up(Keys.CONTROL) \
-        .perform()
+    for j in range(1, 10): # pages  -> start from j+1 = 2
+        for i in range(0, 10): # 검새하고자하는 특허의 수  //  # 일단 테스트로 하나만, range 변경 필요!
+            element = driver.find_element_by_xpath('//*[@id="rso"]/div/div/div[{0}]/div/div/div[1]/a/h3'.format(i+1))
+            ActionChains(driver) \
+            .key_down(Keys.CONTROL) \
+            .click(element) \
+            .key_up(Keys.CONTROL) \
+            .perform()
+            print('test')
+            driver.switch_to.window(driver.window_handles[-1])
+            time.sleep(5)
 
-        # driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 't')
-        # driver.find_element_by_xpath('//*[@id="rso"]/div/div/div[{0}]/div/div/div[1]/a/h3'.format(i+1)).click()  #// 1, 5, 10 번째 특허 데이터 가져오기 성공
+            html = driver.page_source
+            soup = BeautifulSoup(html, 'html.parser')
+            title = soup.select('#title')   # 타이틀
+            for content in title:
+                con = content.text
+                title_list = con.split('\n')
+            t.append(title_list[-2])
 
-        #print(driver.window_handles)
-        driver.switch_to.window(driver.window_handles[-1])
+            date = soup.find('div', {'class' : 'publication style-scope application-timeline'}) # 출원일
+            da.append(date.text)
+
+            inventors = soup.select('#link') # 출원인
+            for inventor in inventors:
+                invent = inventor.text
+                invent_list = invent.split('\n')
+                if invent_list[0].find("Application filed by") == 0:
+                    names = invent_list[0][21:]
+                    inv.append(names)
+            driver.implicitly_wait(10)
+
+            abstract = soup.find('abstract')  # 요약
+            if abstract == None:
+                abs_text = "None"
+            else:
+                abs_text = abstract.text[1:-2]     # abstract.text 앞의 \n 제거
+            abs.append(abs_text)
+
+            print("Title :", t[i], sep=" ")
+            print("Publication date :", da[i], sep=" ")
+            print("Application filed by :", inv[i], sep=" ")
+            print("Abstract :", abs[i], sep=" ")
+
+            driver.close()
+            driver.switch_to.window(driver.window_handles[0])
+            print("Loop_page_", str(j), "_",str(i) )
+        driver.find_element_by_xpath('// *[ @ id = "nav"] / tbody / tr / td[{0}] / a'.format(j + 2)).click()
         time.sleep(5)
 
-        html = driver.page_source
-        soup = BeautifulSoup(html, 'html.parser')
-        title = soup.select('#title')   # 타이틀
-        for content in title:
-            con = content.text
-            title_list = con.split('\n')
-        t.append(title_list[-2])
+    with open("report.csv", 'w') as file:
+        file.write('명칭, 출원일, 출원인, 요약\n')
+        for k in range(len(t)):
+            #print(i[0], i[1], i[2])
+            file.write("{0},{1},{2},{3}\n".format(t[k], da[k], inv[k], abs[k]))
 
-        date = soup.find('div', {'class' : 'publication style-scope application-timeline'}) # 출원일
-        da.append(date.text)
-
-        inventors = soup.select('#link') # 출원인
-        for inventor in inventors:
-            invent = inventor.text
-            invent_list = invent.split('\n')
-            if invent_list[0].find("Application filed by") == 0:
-                names = invent_list[0][21:]
-                inv.append(names)
-        driver.implicitly_wait(10)
-
-        abstract = soup.find('abstract')  # 요약
-        abs_text = abstract.text[1:-2]     # abstract.text 앞의 \n 제거
-        abs.append(abs_text)
-
-        print("Title :", t[i], sep=" ")
-        print("Publication date :", da[i], sep=" ")
-        print("Application filed by :", inv[i], sep=" ")
-        print("Abstract :", abs[i], sep=" ")
-
-        driver.close()
-        driver.switch_to.window(driver.window_handles[0])
-        # driver.back()
-        #driver.execute_script("window.history.go(-1)")
-        print("Loop", str(i))
-
-    print(t)
-    print(da)
-    print(inv)
-    print(abs)
 
 Get_patent_data()
+
+# t, da, inv, abs -> 우분투 mysql 에 저장하기
+
