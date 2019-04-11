@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-     {% if title %}
-        <title>Flask_daehan {{title}} </title>
-    {% else %}
-        <title>Flask_daehan</title>
-    {% endif %}
-</head>
-<body>
+{% extends "layout.html" %}
+{% block content %}
     <h2>about</h2>
-</body>
-</html>
+    <p>How are you doing today? If you have any questions, feel free to ask here.</p>
+{% endblock content %}

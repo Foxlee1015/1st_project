@@ -1,19 +1,19 @@
 # _*_ coding: utf-8 _*_
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 
 app = Flask(__name__)
 
 posts = [
     {
-        'author' : 'daehan',
-        'title' : 'post 1',
+        'author' : 'Daehan',
+        'title' : 'Post 1',
         'content' : '1st',
         'date' : '20190410'
 
     },
     {
-        'author': 'fox',
-        'title': 'post 2',
+        'author': 'Fox',
+        'title': 'Post 2',
         'content': '2nd',
         'date': '20190411'
 
