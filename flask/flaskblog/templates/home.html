@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for post in posts %}
+    {% for post in posts.items %}   <!-- Pagination -->
         <article class="media content-section">
             <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">  <!--# 원래 있던 스타일에서 저장된 사진 -->
             <div class="media-body">

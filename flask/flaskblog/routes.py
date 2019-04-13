@@ -13,12 +13,13 @@ bcrypt = Bcrypt(app)
 @app.route('/')
 @app.route('/home')
 def home():
-    posts = Post.query.all()   # db 에서 post 모두 가져와라
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.paginate(page=page, per_page=5)   # db 에서 한 페이지에 5개만
     return render_template('home.html', posts=posts)  # 앞 posts 는 home.html 에서 오고, 뒤는 위에 post 정보(hello.py 내부)
 
 @app.route('/about')
 def about():
-    return render_template('about.html', title="About")  # title 제공 - about.html 의 if 확인
+    return render_template('about.html', title="about")  # title 제공 - about.html 의 if 확인
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
