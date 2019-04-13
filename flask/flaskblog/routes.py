@@ -3,7 +3,7 @@ import secrets # 사진 파일 이름 바꾸기 위함
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request  # render - return 으로 해당 html 나옴 // url_for 템플릿 {{ url_for('home')}} (/home) 아님 // flash - like a popup // redirect(url_for('about') 이동
 from flaskblog import app, db
-from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm # 내가 만든 forms.py 정의한 함수(RegistrationForm, LoginForm) import
+from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flaskblog.models import User, Post
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, current_user, logout_user, login_required # loginuser- db에 정보 있으면 로그인 확인 메세지/ current_user 로그 된 상태에서 -> 밑에 로그인,레지스터 눌러도 home
@@ -82,14 +82,13 @@ def save_picture(form_picture):  # 첨부시 이름 상관 없이 새로운 이�
     i.save(picture_path)         #   <- form_picture.save(picture_path) 원래 이렇게 저장한걸 바꿈
     return picture_fn
 
-@app.route('/account',  methods=['GET', 'POST'])
-@login_required # 데코
+@app.route('/account', methods=['GET', 'POST'])
+@login_required
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:
-            picture_file = save_picture(form.picture.data)
-            current_user.image_file = picture_file
+            picture_file = save_picture(form.picture.data)   # 위에서 정의한 함수 savepicture 에 form 에 올라온 사진 넣음음            current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
@@ -104,3 +103,13 @@ def account():
 @app.route('/patent')
 def patent():
     return render_template('patent.html', title="Patent")
+
+@app.route('/post/new', methods=['GET', 'POST'])
+@login_required   # 포스트하기 위해서 로그인이 필요함
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        flash('Your post has been created', 'success')
+        return redirect((url_for('home')))
+    return render_template('create_post.html', title="New Post", form=form, legend='New Post')    # 실수 - form 안 넣으면 form 정의 안됨
+
