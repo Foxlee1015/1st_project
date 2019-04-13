@@ -14,7 +14,7 @@ bcrypt = Bcrypt(app)
 @app.route('/home')
 def home():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.paginate(page=page, per_page=1)   # db 에서 한 페이지에 5개만
+    posts = Post.query.order_by(Post.date.desc()).paginate(page=page, per_page=3)   # db 에서 한 페이지에 5개만 // .order_by(Post.date.desc()) - 포스트 순서 시간기준 오래된것 앞으로
     return render_template('home.html', posts=posts)  # 앞 posts 는 home.html 에서 오고, 뒤는 위에 post 정보(hello.py 내부)
 
 @app.route('/about')
@@ -136,3 +136,12 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
+
+@app.route('/user/<string:username>')
+def user_posts(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(author=user)\
+        .order_by(Post.date.desc())\
+        .paginate(page=page, per_page=3)   # db 에서 한 페이지에 5개만 // .order_by(Post.date.desc()) - 포스트 순서 시간기준 오래된것 앞으로
+    return render_template('user_posts.html', posts=posts, user=user)  # 앞 posts 는 home.html 에서 오고, 뒤는 위에 post 정보(hello.py 내부)
