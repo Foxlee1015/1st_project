@@ -1,3 +1,5 @@
+import os  #사진 파일 저장하기 위해 사진의 형식 저장
+import secrets # 사진 파일 이름 바꾸기 위함
 from flask import render_template, url_for, flash, redirect, request  # render - return 으로 해당 html 나옴 // url_for 템플릿 {{ url_for('home')}} (/home) 아님 // flash - like a popup // redirect(url_for('about') 이동
 from flaskblog import app, db
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm # 내가 만든 forms.py 정의한 함수(RegistrationForm, LoginForm) import
@@ -67,11 +69,22 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+def save_picture(form_picture):  # 첨부시 이름 상관 없이 새로운 이름으로 저장
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename) # 파일의 이름을 저장
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn) # app 패키지의 위치
+    form_picture.save(picture_path)
+    return picture_fn
+
 @app.route('/account',  methods=['GET', 'POST'])
 @login_required # 데코
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
