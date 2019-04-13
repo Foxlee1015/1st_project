@@ -14,7 +14,7 @@ bcrypt = Bcrypt(app)
 @app.route('/home')
 def home():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.paginate(page=page, per_page=5)   # db 에서 한 페이지에 5개만
+    posts = Post.query.paginate(page=page, per_page=1)   # db 에서 한 페이지에 5개만
     return render_template('home.html', posts=posts)  # 앞 posts 는 home.html 에서 오고, 뒤는 위에 post 정보(hello.py 내부)
 
 @app.route('/about')

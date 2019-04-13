@@ -13,4 +13,11 @@
             </div>
         </article>
     {% endfor %}
+    {% for page_num in posts.iter_pages() %}  <!-- iter 을 넣어서 페이지를 이전,다음으로 이동하는 기준 가짐   -->
+        {% if page_num %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}"> {{ page_num }} </a>
+        {% else  %}
+            ...
+        {% endif %}
+    {% endfor %}
 {% endblock content %}
