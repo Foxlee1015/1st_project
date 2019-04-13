@@ -2,10 +2,11 @@
 {% block content %}
     {% for post in posts %}
         <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">  <!--# 원래 있던 스타일에서 저장된 사진 -->
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ post.author }}</a> <!-- mr = margin right 2 -->
-                    <small class="text-muted">{{ post.date }}</small>
+                    <a class="mr-2" href="#">{{ post.author.username }}</a> <!-- mr = margin right 2 -->
+                    <small class="text-muted">{{ post.date.strftime('%Y-%m-%d') }}</small>  <!-- # 연월일 만 display -->
                 </div>
                 <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.content }}</p>

@@ -10,25 +10,10 @@ from flask_login import login_user, current_user, logout_user, login_required # 
 
 bcrypt = Bcrypt(app)
 
-posts = [
-    {
-        'author' : 'Daehan',
-        'title' : 'Post 1',
-        'content' : '1st',
-        'date' : '20190410'
-    },
-    {
-        'author': 'Fox',
-        'title': 'Post 2',
-        'content': '2nd',
-        'date': '20190411'
-    }
-]
-
 @app.route('/')
-
 @app.route('/home')
 def home():
+    posts = Post.query.all()   # db 에서 post 모두 가져와라
     return render_template('home.html', posts=posts)  # 앞 posts 는 home.html 에서 오고, 뒤는 위에 post 정보(hello.py 내부)
 
 @app.route('/about')
@@ -109,6 +94,9 @@ def patent():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)  # db에 저장
+        db.session.add(post)
+        db.session.commit()        #post -> db 저장
         flash('Your post has been created', 'success')
         return redirect((url_for('home')))
     return render_template('create_post.html', title="New Post", form=form, legend='New Post')    # 실수 - form 안 넣으면 form 정의 안됨
