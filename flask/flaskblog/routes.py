@@ -106,12 +106,21 @@ def post(post_id):
     post = Post.query.get_or_404(post_id)         # 페이지 없으면 404 return
     return render_template('post.html', title=post.title, post=post)   # post 바로위 post 정의
 
-@app.route('/post/<int:post_id>/update')
+@app.route('/post/<int:post_id>/update',  methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)                    # 작성자가 다르면 접근불가 from flask
     form = PostForm()
-    return render_template('create_post.html', title='update post', form=form)  # 바로위 form 을 form 으로 정의
+    if form.validate_on_submit():             # 업데이트 위해 새로 작성된 post 가 submit 되면
+        post.title = form.title.data          # post 로 title, content 가 저장되고
+        post.content = form.content.data
+        db.session.commit()                  # 이미 db 에 있기 때문에 add 필요 없음
+        flash('Your post has been updated!', 'success')
+        return redirect((url_for('post', post_id=post_id)))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content     # form 에 post 를 넣어줌.
+    return render_template('create_post.html', title='update post', form=form, legend='Update Post')  # 바로위 form 을 form 으로 정의  # legend 테크,
 
