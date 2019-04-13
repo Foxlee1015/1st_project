@@ -1,7 +1,7 @@
 import os  #사진 파일 저장하기 위해 사진의 형식 저장
 import secrets # 사진 파일 이름 바꾸기 위함
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request  # render - return 으로 해당 html 나옴 // url_for 템플릿 {{ url_for('home')}} (/home) 아님 // flash - like a popup // redirect(url_for('about') 이동
+from flask import render_template, url_for, flash, redirect, request, abort  # render - return 으로 해당 html 나옴 // url_for 템플릿 {{ url_for('home')}} (/home) 아님 // flash - like a popup // redirect(url_for('about') 이동
 from flaskblog import app, db
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flaskblog.models import User, Post
@@ -104,4 +104,14 @@ def new_post():
 @app.route('/post/<int:post_id>')
 def post(post_id):
     post = Post.query.get_or_404(post_id)         # 페이지 없으면 404 return
-    return render_template('post.html', title=post.title, post=post)
+    return render_template('post.html', title=post.title, post=post)   # post 바로위 post 정의
+
+@app.route('/post/<int:post_id>/update')
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)                    # 작성자가 다르면 접근불가 from flask
+    form = PostForm()
+    return render_template('create_post.html', title='update post', form=form)  # 바로위 form 을 form 으로 정의
+
