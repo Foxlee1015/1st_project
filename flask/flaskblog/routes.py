@@ -101,3 +101,7 @@ def new_post():
         return redirect((url_for('home')))
     return render_template('create_post.html', title="New Post", form=form, legend='New Post')    # 실수 - form 안 넣으면 form 정의 안됨
 
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)         # 페이지 없으면 404 return
+    return render_template('post.html', title=post.title, post=post)
