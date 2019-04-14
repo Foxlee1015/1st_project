@@ -2,13 +2,14 @@ import os  #사진 파일 저장하기 위해 사진의 형식 저장
 import secrets # 사진 파일 이름 바꾸기 위함
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort  # render - return 으로 해당 html 나옴 // url_for 템플릿 {{ url_for('home')}} (/home) 아님 // flash - like a popup // redirect(url_for('about') 이동
-from flaskblog import app, db
-from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
+from flaskblog import app, db, bcrypt, mail
+from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, RequestResetForm, ResetPasswordForm
 from flaskblog.models import User, Post
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, current_user, logout_user, login_required # loginuser- db에 정보 있으면 로그인 확인 메세지/ current_user 로그 된 상태에서 -> 밑에 로그인,레지스터 눌러도 home
+from flask_mail import Message
 
-bcrypt = Bcrypt(app)
+#bcrypt = Bcrypt(app)
 
 @app.route('/')
 @app.route('/home')
@@ -145,3 +146,42 @@ def user_posts(username):
         .order_by(Post.date.desc())\
         .paginate(page=page, per_page=3)   # db 에서 한 페이지에 5개만 // .order_by(Post.date.desc()) - 포스트 순서 시간기준 오래된것 앞으로
     return render_template('user_posts.html', posts=posts, user=user)  # 앞 posts 는 home.html 에서 오고, 뒤는 위에 post 정보(hello.py 내부)
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', sender='noreplay@demo.com', recipients=[user.email])
+    msg.body = f"""To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+
+If you did not make this request then simply ignore this email and no change will be made
+    """
+    mail.send(msg)
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:    # 로그인된 상태라면 홈으로 로그아웃
+        return redirect(url_for('home'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:    # 로그인된 상태라면 홈으로 로그아웃
+        return redirect(url_for('home'))
+    user =User.verity_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')   # warning - yellow outline
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():   # use 정보 이미 있음
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')        # 커맨드에서 로그인 설정
+        user.password = hashed_password  # 비밀번호 업뎃이트
+        db.session.commit()
+        flash('Your password has been updated! You are now able to log in', 'success')
+        return redirect(url_for('login')) # home 함수
+    return render_template('reset_token.html', title='Reset Password', form=form)

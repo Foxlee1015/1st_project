@@ -49,4 +49,16 @@ class PostForm(FlaskForm):
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
 
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Rest')
 
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()  # user 가 이미 db에 있으면
+        if user is None :
+            raise ValidationError('There is no accont with that email. You must register first.')   # 이메일 중복시 발생
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=2, max=20)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password' )
