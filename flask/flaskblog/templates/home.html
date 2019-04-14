@@ -5,10 +5,10 @@
             <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">  <!--# 원래 있던 스타일에서 저장된 사진 -->
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username )}}">{{ post.author.username }}</a> <!-- mr = margin right 2 -->
+                    <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username )}}">{{ post.author.username }}</a> <!-- mr = margin right 2 -->
                     <small class="text-muted">{{ post.date.strftime('%Y-%m-%d') }}</small>  <!-- # 연월일 만 display -->
                 </div>
-                <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>   <!-- # 이동 x  // 타이틀을 클릭하면 그 post.id로 이동-->
+                <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>   <!-- # 이동 x  // 타이틀을 클릭하면 그 post.id로 이동-->
                 <p class="article-content">{{ post.content }}</p>
             </div>
         </article>
@@ -16,9 +16,9 @@
     {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}  <!-- iter 을 넣어서 페이지를 이전,다음으로 이동하는 기준 가짐   -->
         {% if page_num %}
             {% if posts.page == page_num %}    <!-- 내가 그 페이지 있을때는 파란색 채우기 버튼 -->
-                <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}"> {{ page_num }} </a> <!-- 페이지 리스트 목록(post) -->
+                <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}"> {{ page_num }} </a> <!-- 페이지 리스트 목록(post) -->
             {% else  %}   <!-- 테두리만 -->
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}"> {{ page_num }} </a> <!-- 페이지 리스트 목록(post) // 이동 버튼, 그 페이지로! url 한번 확인~ -->
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}"> {{ page_num }} </a> <!-- 페이지 리스트 목록(post) // 이동 버튼, 그 페이지로! url 한번 확인~ -->
             {% endif %}
         {% else  %}
             ...

@@ -23,20 +23,20 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="{{url_for('home')}}">Home</a>
-                        <a class="nav-item nav-link" href="/about">About</a>
-                        <a class="nav-item nav-link" href="/patent">Patent</a>
+                        <a class="nav-item nav-link" href="{{url_for('main.home')}}">Home</a>
+                        <a class="nav-item nav-link" href="{{url_for('main.about')}}">About</a>
+                        <a class="nav-item nav-link" href="{{url_for('main.patent')}}">Patent</a>
                         <a class="nav-item nav-link" href="/about">News</a> <!-- 특정 기술 관련 특허 뉴스-->
                     </div>
             <!-- Navbar Right Side -->
                     <div class="navbar-nav">
                         {% if current_user.is_authenticated %}                        <!-- 로그인 상태이면  longin,rester탭 안보임-->
-                        <a class="nav-item nav-link" href="/post/new">New Post</a>
-                        <a class="nav-item nav-link" href="/account">Account</a>
-                        <a class="nav-item nav-link" href="/logout">Logout</a>
+                        <a class="nav-item nav-link" href="{{url_for('posts.new_post')}}">New Post</a>
+                        <a class="nav-item nav-link" href="{{url_for('users.account')}}">Account</a>
+                        <a class="nav-item nav-link" href="{{url_for('users.logout')}}">Logout</a>
                         {% else %}
-                            <a class="nav-item nav-link" href="/login">Login</a>
-                            <a class="nav-item nav-link" href="/register">Register</a>
+                            <a class="nav-item nav-link" href="{{url_for('users.login')}}">Login</a>
+                            <a class="nav-item nav-link" href="{{url_for('users.register')}}">Register</a>
                         {% endif %}
                     </div>
                 </div>
