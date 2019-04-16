@@ -17,3 +17,7 @@ def about():
 @main.route('/patent')
 def patent():
     return render_template('patent.html', title="Patent")
+
+@main.route('/news')
+def news():
+    return render_template('news.html', title="News")

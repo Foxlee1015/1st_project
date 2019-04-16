@@ -1,0 +1,37 @@
+{% extends "layout_pat.html" %}
+{% block content %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">특허 검색</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            특허검색엔진
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">구글특허</a>
+            <a class="dropdown-item" href="#">키프리스</a>
+          </div>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            검색분류
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">출원인</a>
+            <a class="dropdown-item" href="#">출원번호</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">기술 키워드</a>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline  my-2 my-lg-0">
+        <input class="form-control my-2 mr-sm-1" width="350px" type="search" placeholder="Search" aria-label="Search" required>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+{% endblock content %}
