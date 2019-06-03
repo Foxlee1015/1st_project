@@ -1,11 +1,17 @@
 from datetime import datetime
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request, render_template
 from elasticsearch import Elasticsearch
+from wtforms import Form, validators, SubmitField, TextAreaField, SelectField
 
 # Flask 와 연동시 참고
 
 es = Elasticsearch('http://localhost:9200')
 app = Flask(__name__)
+
+class Search_Form(Form):
+    title = TextAreaField('Title', [validators.data_required(), validators.Length(min=1, max=20)])
+    country = SelectField('Country', choices=[('US', 'US'), ('KR', 'KR'), ('JP', 'JP'), ('EP', 'EP')])
+    submit = SubmitField('Request Password Reset')
 
 @app.route('/', methods=['GET'])  # 전체 데이
 def index():
@@ -18,24 +24,57 @@ def index():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    #keyword = request.form['keyword']
+    form = Search_Form(request.form)
+    if request.method == "POST" :
+        title, country = form.title.data, form.country.data
+        print(title, country)
+        result = search_data2(country, title)
+        return render_template('es_search.html', results=result, n=len(result), form=form)
+    else:
+        return render_template('es_search.html', results=None, form=form)
+
+def search_data1(keyword):
     body = {
         "query": {
             "match": {
-                "Country": "KR"
+                "Country": keyword
             }
         },
-        "size": 500
+        "size": 500 # 검색되는 건수 제한
     }
     results = es.search(index="patent", body=body)
     re_hits = results['hits']['hits']
     n = len(re_hits)
     result = []
     for i in range(n):
-        #print(re_hits[i]['_source'])
+        # print(re_hits[i]['_source'])
         data = re_hits[i]['_source']
         result.append([data['Country'], data['Application date'], data['Inventor'], data['title'], data['abstract'], data['Claim']])
-    return render_template('es_search.html', results=result, n=len(result))
+    return result
+
+
+def search_data2(keyword1, keyword2):
+    body = {
+        "query":  {
+            "bool": {
+                "must": [
+                    {"match": {"Country": keyword1}},
+                    {"match": {"title": keyword2}}
+                    ]
+                }
+            },
+        "size": 500 # 검색되는 건수 제한
+    }
+    results = es.search(index="patent", body=body)
+    re_hits = results['hits']['hits']
+    print(re_hits)
+    n = len(re_hits)
+    result = []
+    for i in range(n):
+        # print(re_hits[i]['_source'])
+        data = re_hits[i]['_source']
+        result.append([data['Country'], data['Application date'], data['Inventor'], data['title'], data['abstract'], data['Claim']])
+    return result
 
 # patent db 에서 넣기
 def post_data(id, csv_data):

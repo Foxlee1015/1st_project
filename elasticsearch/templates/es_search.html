@@ -5,9 +5,15 @@
     <title>검색</title>
 </head>
 <body>
-<p>검색 하기</p>
 
-<p>출원인</p>
+<form method="POST" action="">
+    <p>Search</p>
+    <p>Country</p>
+    {{ form.country(class="form-control") }}
+    <p>Title</p>
+    {{ form.title(class="form-control") }}
+    <input class="login__button login__button--submit _loginSubmitButton" type="submit" value="okay">
+</form>
 
 <p>명칭, 요약</p>
 
@@ -27,6 +33,7 @@
 
 <p>-</p>
 <p>검색 결과</p>
+{% if results: %}
 {% for i in range(n) %}
     <p>No. {{ i }}</p>
     <p>Country : {{ results[i][0] }} </p>
@@ -37,5 +44,7 @@
     <p>Claim : {{ results[i][5] }}</p>
     <p> 링크</p>
 {% endfor %}
+{% else %}<p>검색을 진행하십시오</p>{% endif %}
+
 </body>
 </html>
