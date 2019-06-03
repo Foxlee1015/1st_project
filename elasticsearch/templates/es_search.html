@@ -12,20 +12,12 @@
     {{ form.country(class="form-control") }}
     <p>Title</p>
     {{ form.title(class="form-control") }}
+    <p>Abstract</p>
+    {{ form.abstract(class="form-control") }}
     <input class="login__button login__button--submit _loginSubmitButton" type="submit" value="okay">
 </form>
 
-<p>명칭, 요약</p>
-
-<p>-</p>
-
-<p>-</p>
-
-<p>-</p>
-
-<p>-</p>
-
-<p>-</p>
+<p>요약</p>
 
 <p>-</p>
 
@@ -35,12 +27,12 @@
 <p>검색 결과</p>
 {% if results: %}
 {% for i in range(n) %}
-    <p>No. {{ i }}</p>
+    <p>No. {{ i+1 }}</p>
     <p>Country : {{ results[i][0] }} </p>
     <p>App. date : {{ results[i][1] }} </p>
     <p>Inventor : {{ results[i][2] }}</p>
     <p>Title : {{ results[i][3] }}</p>
-    <p>abstract : {{ results[i][4] }}</p>
+    <p>Abstract : {{ results[i][4] }}</p>
     <p>Claim : {{ results[i][5] }}</p>
     <p> 링크</p>
 {% endfor %}

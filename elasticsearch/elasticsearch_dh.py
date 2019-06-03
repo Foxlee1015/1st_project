@@ -1,7 +1,7 @@
-from datetime import datetime
 from flask import Flask, request, render_template
 from elasticsearch import Elasticsearch
 from wtforms import Form, validators, SubmitField, TextAreaField, SelectField
+import csv
 
 # Flask 와 연동시 참고
 
@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 class Search_Form(Form):
     title = TextAreaField('Title', [validators.data_required(), validators.Length(min=1, max=20)])
+    abstract = TextAreaField('Title', [validators.data_required(), validators.Length(min=1, max=20)])
     country = SelectField('Country', choices=[('US', 'US'), ('KR', 'KR'), ('JP', 'JP'), ('EP', 'EP')])
     submit = SubmitField('Request Password Reset')
 
@@ -26,9 +27,9 @@ def index():
 def search():
     form = Search_Form(request.form)
     if request.method == "POST" :
-        title, country = form.title.data, form.country.data
-        print(title, country)
-        result = search_data2(country, title)
+        title, country, abstract = form.title.data, form.country.data, form.abstract.data
+        print(title, country, abstract)
+        result = search_data2(country, title, abstract)
         return render_template('es_search.html', results=result, n=len(result), form=form)
     else:
         return render_template('es_search.html', results=None, form=form)
@@ -49,17 +50,18 @@ def search_data1(keyword):
     for i in range(n):
         # print(re_hits[i]['_source'])
         data = re_hits[i]['_source']
-        result.append([data['Country'], data['Application date'], data['Inventor'], data['title'], data['abstract'], data['Claim']])
+        result.append([data['Country'], data['Application date'], data['Inventor'], data['Title'], data['Abstract'], data['Claim']])
     return result
 
 
-def search_data2(keyword1, keyword2):
+def search_data2(keyword1, keyword2, keyword3):
     body = {
         "query":  {
             "bool": {
                 "must": [
                     {"match": {"Country": keyword1}},
-                    {"match": {"title": keyword2}}
+                    {"match": {"Title": keyword2}},
+                    {"match": {"Abstract": keyword3}}
                     ]
                 }
             },
@@ -67,13 +69,13 @@ def search_data2(keyword1, keyword2):
     }
     results = es.search(index="patent", body=body)
     re_hits = results['hits']['hits']
-    print(re_hits)
+    #print(re_hits)
     n = len(re_hits)
     result = []
     for i in range(n):
         # print(re_hits[i]['_source'])
         data = re_hits[i]['_source']
-        result.append([data['Country'], data['Application date'], data['Inventor'], data['title'], data['abstract'], data['Claim']])
+        result.append([data['Country'], data['Application date'], data['Inventor'], data['Title'], data['Abstract'], data['Claim']])
     return result
 
 # patent db 에서 넣기
@@ -81,8 +83,8 @@ def post_data(id, csv_data):
     doc = {}
     doc['Country'] = csv_data[0]
     doc['Document_type']= csv_data[1]
-    doc['title'] = csv_data[2]
-    doc['abstract'] = csv_data[3]
+    doc['Title'] = csv_data[2]
+    doc['Abstract'] = csv_data[3]
     doc['Claim'] = csv_data[4]
     doc['Number of claims'] = csv_data[5]
     doc['Application number'] = csv_data[6]
@@ -112,6 +114,8 @@ def read_data():
             post_data(id, csv_data)   #
             id += 1
     f.close()
+
+#read_data()
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
