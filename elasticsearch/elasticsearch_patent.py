@@ -76,5 +76,5 @@ def search_multi_data(keyword1, keyword2):
 
 #read_data()   # id 먼저 확인, update or create ?
 #delete_data("patent")
-#search_data("KR")
+search_data("KR")
 #search_multi_data("JP","NGK SPARK PLUG CO LTD")
