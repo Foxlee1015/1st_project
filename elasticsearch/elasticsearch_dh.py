@@ -23,20 +23,20 @@ def home():
     return render_template('es_home.html', data=index_data, n=len(index_data))
 
 # 특정 인덱스만 출력
-@app.route('/index/<string:index>/<string:doc_type>', methods=['GET', 'POST'])
-def index(index, doc_type):
+@app.route('/index/<string:index>/size/<int:number>', methods=['GET', 'POST'])
+def index(index,number):
     data = []
-    for id in range(1,347):    ## 특허 건 수에 맞춰서 수정
-        results = es.get(index=index, doc_type=doc_type, id=id)
+    for id in range(1,number):
+        results = es.get(index=index, doc_type="patent", id=id)
         data.append(results)
-    return render_template('es_home.html', data=data, n = len(data))
+    return render_template('es_index.html', data=data, n = len(data))
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
+@app.route('/search/<string:index>', methods=['GET', 'POST'])
+def search(index):
     form = Search_Form(request.form)
     if request.method == "POST" :
         title, country, abstract = form.title.data, form.country.data, form.abstract.data
-        result = search_data2(country, title, abstract)
+        result = search_data2(index, country, title, abstract)
         return render_template('es_search.html', results=result, n=len(result), form=form)
     else:
         return render_template('es_search.html', results=None, form=form)
@@ -50,7 +50,7 @@ def search_data1(keyword):
         },
         "size": 500 # 검색되는 건수 제한
     }
-    results = es.search(index="patent", body=body)
+    results = es.search(index="nisshin", body=body)
     re_hits = results['hits']['hits']
     n = len(re_hits)
     result = []
@@ -60,35 +60,35 @@ def search_data1(keyword):
         result.append([data['Country'], data['Application date'], data['Inventor'], data['Title'], data['Abstract'], data['Claim']])
     return result
 
-def search_data2(keyword1, keyword2, keyword3):
+def search_data2(index, keyword1, keyword2, keyword3):
     body = {
         "query":  {
             "bool": {
-                "must": [
-                    {"match": {"Country": keyword1}},
-                    {"match": {"Title": keyword2}},
-                    {"match": {"Abstract": keyword3}}
+                "should": [
+                    {"match": {"\ufeff국가코드": keyword1}},
+                    {"match": {"발명의 명칭": keyword2}},
+                    {"match": {"요약": keyword3}}
                     ]
                 }
             },
         "size": 500 # 검색되는 건수 제한
     }
-    results = es.search(index="patent", body=body)
+    results = es.search(index=index, body=body)
     re_hits = results['hits']['hits']
-    #print(re_hits)
     n = len(re_hits)
     result = []
     for i in range(n):
-        # print(re_hits[i]['_source'])
         data = re_hits[i]['_source']
-        result.append([data['Country'], data['Application date'], data['Inventor'], data['Title'], data['Abstract'], data['Claim']])
+        result.append([data['\ufeff국가코드'], data['출원일'], data['출원인'], data['발명의 명칭'], data['요약'], data['대표청구항']])
     return result
 
+# csv 파일 확인사항 1. , 제거 2. 빈칸 채우기 3. column 확인
 #add_data1 = Data_handler("filename", "index", "doc_type")
-#new_data1.upload_data()
+#add_data1.upload_data()
 
 #delete_index = Index_handler("index")
-#z.delete()
+#delete_index.delete()
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

@@ -9,7 +9,8 @@
 <p></p>
 {% if data: %}
 {% for i in range(n) %}
-{{ data[i] }}
+<a href="/index/{{data[i]}}/size/10">{{ data[i] }}</a>
+<a href="/search/{{data[i]}}">{{ data[i] }}_search</a>
 <p></p>
 {% endfor %}
 {% else %}{% endif %}
