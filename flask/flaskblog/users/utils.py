@@ -1,5 +1,6 @@
 import os  #사진 파일 저장하기 위해 사진의 형식 저장
 import secrets # 사진 파일 이름 바꾸기 위함
+#from PIL import Image
 from PIL import Image
 from flask import url_for, current_app # render - return 으로 해당 html 나옴 // url_for 템플릿 {{ url_for('home')}} (/home) 아님 // flash - like a popup // redirect(url_for('about') 이동
 from flaskblog import mail
