@@ -5,12 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-<p>Home</p>
+<a href="/">Home</a>
+    <form method="POST" action="">
+    <input class="login__button login__button--submit _loginSubmitButton" type="submit" value="Delete this index">
+    </form>
 <p></p>
 {% if data: %}
 {% for i in range(n) %}
-<a href="/index/{{data[i]}}/size/10">{{ data[i] }}</a>
-<a href="/search/{{data[i]}}">{{ data[i] }}_search</a>
+{{ data[i] }}
 <p></p>
 {% endfor %}
 {% else %}{% endif %}
