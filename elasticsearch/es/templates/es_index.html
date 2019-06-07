@@ -7,8 +7,19 @@
 <body>
 <a href="/">Home</a>
     <form method="POST" action="">
+    <p>Type the name of the index and Click the button if you want to delete the index</p>
+    {{ form.index(class="form-control") }}
     <input class="login__button login__button--submit _loginSubmitButton" type="submit" value="Delete this index">
     </form>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
 <p></p>
 {% if data: %}
 {% for i in range(n) %}

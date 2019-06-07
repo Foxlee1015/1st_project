@@ -6,15 +6,7 @@
 </head>
 <body>
 <a href="/">Home</a>
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                  {{ message }}
-                </div>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
+
 <form method="POST" action="" enctype="multipart/form-data">
     <p>등록</p>
     <p></p>
@@ -27,7 +19,15 @@
 </form>
 
 <p>-</p>
-
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
 <p>-</p>
 
 <p>-</p>

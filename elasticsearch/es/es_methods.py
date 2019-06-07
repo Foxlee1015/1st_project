@@ -17,7 +17,7 @@ class Data_handler():
     def upload_data(self):
         index, doc_type = self.index, self.doc_type
         try:
-            f = open('data/{0}.csv'.format(index), 'r', encoding='utf-8-sig')  # utf-8 // euc-kr //  encoding='utf-8-sig'
+            f = open('es/data/{0}.csv'.format(index), 'r', encoding='utf-8-sig')  # utf-8 // euc-kr //  encoding='utf-8-sig'
             rdr = csv.reader(f)
             id = 1  # 기존 데이터 업데이트한다면 1  추가할시 기존 id 마지막 다음으로 설정 (346까지 존재)
             for line in rdr:
@@ -36,7 +36,7 @@ class Data_handler():
                     schema = line
             f.close()
         except UnicodeDecodeError:
-            f = open('data/{0}.csv'.format(index), 'r', encoding='euc-kr')  # utf-8 // euc-kr //  encoding='utf-8-sig'
+            f = open('es/data/{0}.csv'.format(index), 'r', encoding='euc-kr')  # utf-8 // euc-kr //  encoding='utf-8-sig'
             rdr = csv.reader(f)
             id = 1  # 기존 데이터 업데이트한다면 1  추가할시 기존 id 마지막 다음으로 설정 (346까지 존재)
             for line in rdr:

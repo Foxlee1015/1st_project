@@ -12,4 +12,5 @@ class File_Form(Form):
     submit = SubmitField('Register')
 
 class Submit_Form(Form):
+    index = TextAreaField('Index', [validators.data_required(), validators.Length(min=1, max=20)])
     submit = SubmitField('Register')
