@@ -4,6 +4,7 @@ from elasticsearch import Elasticsearch
 from es.es_methods import Data_handler   # data = 디렉토리, es_class = 파일명(py), Data_handler = 클래스
 from es.forms.forms import Search_Form, File_Form, Submit_Form
 from werkzeug.utils import secure_filename
+import numpy as np
 
 elastic = Blueprint('elastic', __name__)
 es = Elasticsearch('http://localhost:9200')
@@ -65,3 +66,11 @@ def register():
     else:
         flash('파일을 등록해주십시오')
         return render_template('db_register.html', form=form)
+
+@elastic.route('/<string:index>/country', methods=['GET','POST'])
+def country(index):
+    data=Data_handler(index, "patent")
+    data1 = data.country_data()
+    data = [20, 15, 10, 5]
+    # https://codelib.tistory.com/11
+    return render_template('es_js.html', data=data)

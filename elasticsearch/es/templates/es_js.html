@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Country</title>
+<div class="graph"></div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+var w = 250, h = 250;
+d3.select(".graph")
+    .append("svg")
+    .attr("width", w)
+    .attr("height", h)
+    .attr("id", "graphWrap");
+var graphWrap = d3.select("#graphWrap");
+
+var graphData = {{ data }};
+var pie = d3.pie();
+var arc = d3.arc().innerRadius(0).outerRadius(100);
+var colors = d3.scaleOrdinal(d3.schemeCategory10);
+
+var oneGraph = graphWrap.selectAll("path").data(pie(graphData));
+oneGraph.enter()
+    .append("path")
+    .attr("class", "pie")
+    .attr("transform", "translate("+(w/2)+","+(h/2)+")")
+    .style("fill", function(d, i) {
+        return colors(graphData[i]);})
+    .transition()
+    .duration(1000)
+    .delay(function(d, i) {
+        return i * 1000;
+    })
+    .attrTween("d", function(d, i) {
+        var interpolate = d3.interpolate(
+            {startAngle : d.startAngle, endAngle : d.startAngle},
+            {startAngle : d.startAngle, endAngle : d.endAngle}
+        );
+        return function(t){
+            return arc(interpolate(t));
+        }
+    });
+
+</script>
+</html>

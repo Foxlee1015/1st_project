@@ -86,11 +86,25 @@ class Data_handler():
             result.append([data['국가코드'], data['출원일'], data['출원인'], data['발명의 명칭'], data['요약'], data['대표청구항']])
         return result
 
-    """# 참고 = 1 match
-        body = {
-            "query": {
-                "match": { "Country": keyword }
-            },
-            "size": 500
-        }
-    """
+    def country_data(self):
+        index = self.index
+        x = [ "KR", 'JP', 'US', 'EP']
+        y = []
+        for i in range(4):
+            body = {
+                "query": {
+                    "match": { "국가코드" : x[i] }
+                },
+                "size": 500
+            }
+            results = es.search(index=index, body=body)
+            re_hits = results['hits']['hits']
+            n = len(re_hits)
+            y.append(n)
+
+        data_list = []
+        for i in range(4):
+            country_data_dic = {}
+            country_data_dic.update({'name': x[i] , 'value': y[i]})
+            data_list.append(country_data_dic)
+        return data_list
