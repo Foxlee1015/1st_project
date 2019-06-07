@@ -88,7 +88,7 @@ class Data_handler():
 
     def country_data(self):
         index = self.index
-        x = [ "KR", 'JP', 'US', 'EP']
+        x = [ 'KR', 'JP', 'US', 'EP']
         y = []
         for i in range(4):
             body = {
@@ -102,9 +102,4 @@ class Data_handler():
             n = len(re_hits)
             y.append(n)
 
-        data_list = []
-        for i in range(4):
-            country_data_dic = {}
-            country_data_dic.update({'name': x[i] , 'value': y[i]})
-            data_list.append(country_data_dic)
-        return data_list
+        return x, y

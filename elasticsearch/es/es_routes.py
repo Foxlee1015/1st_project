@@ -70,7 +70,17 @@ def register():
 @elastic.route('/<string:index>/country', methods=['GET','POST'])
 def country(index):
     data=Data_handler(index, "patent")
-    data1 = data.country_data()
-    data = [20, 15, 10, 5]
-    # https://codelib.tistory.com/11
-    return render_template('es_js.html', data=data)
+    country_name, counts = data.country_data()
+    return render_template('es_index_country.html', country_name=country_name, counts=counts)
+
+@elastic.route('/country', methods=['GET','POST'])
+def country_all():
+    x = [ 'egr','resolver', 'sensor','pile']
+    y = []
+    for i in range(4):
+        data=Data_handler(x[i], "patent")
+        country_name, counts = data.country_data()
+        y.append([x[i], country_name, counts])
+    return render_template('es_country.html', y=y)
+
+
