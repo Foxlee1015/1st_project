@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ceb71b7d-b26b-40e7-85d5-acc8192ddb9f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/es/es_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/es/es_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/es/forms/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/es/forms/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/es/templates/es_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/es/templates/es_home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/es/templates/db_register.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/es/templates/es_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/es/templates/es_index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_es.py.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_es.py.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,8 +36,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/es/es_routes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-19">
-              <caret line="17" column="78" lean-forward="true" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="78" />
+            <state relative-caret-position="302">
+              <caret line="60" column="29" lean-forward="true" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -47,10 +46,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run_es.py.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/es/templates/es_index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="28" column="33" lean-forward="true" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
+            <state relative-caret-position="361">
+              <caret line="31" column="51" lean-forward="true" selection-start-line="31" selection-start-column="51" selection-end-line="31" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -107,7 +115,6 @@
         <option value="$PROJECT_DIR$/templates/es_index.html" />
         <option value="$PROJECT_DIR$/elasticsearch_dh.py" />
         <option value="$PROJECT_DIR$/es/elasticsearch_dh.py" />
-        <option value="$PROJECT_DIR$/run_es.py.py" />
         <option value="$PROJECT_DIR$/es/templates/db_register.html" />
         <option value="$PROJECT_DIR$/es/__init__.py" />
         <option value="$PROJECT_DIR$/es/templates/line-chart.js" />
@@ -133,6 +140,7 @@
         <option value="$PROJECT_DIR$/../../../Shopping-website/shopping_website/__init__.py" />
         <option value="$PROJECT_DIR$/es/forms/forms.py" />
         <option value="$PROJECT_DIR$/es/templates/es_home.html" />
+        <option value="$PROJECT_DIR$/run_es.py.py" />
         <option value="$PROJECT_DIR$/es/templates/es_index.html" />
         <option value="$PROJECT_DIR$/es/es_routes.py" />
       </list>
@@ -325,8 +333,8 @@
     <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4924078" visible="true" weight="0.016332982" />
-      <window_info id="Structure" order="1" sideWeight="0.5075922" side_tool="true" visible="true" weight="0.016332982" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4913232" visible="true" weight="0.016332982" />
+      <window_info id="Structure" order="1" sideWeight="0.50867677" side_tool="true" visible="true" weight="0.016332982" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3291815" />
@@ -466,20 +474,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/board/__init__ - 복사본.py" />
     <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/board/board.py" />
-    <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/main_fuctions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/db_fuctions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="16" selection-start-column="16" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/main_fuctions.py" />
+    <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/db_fuctions.py" />
     <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/board/routes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -490,13 +486,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/dbconnect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/dbconnect.py" />
     <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/templates/board_write.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -511,16 +501,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1007">
-          <caret line="74" selection-start-line="74" selection-end-line="74" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../Shopping-website/shopping_website/routes.py" />
     <entry file="file://$PROJECT_DIR$/../../../Shopping-website/run.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
@@ -545,20 +526,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../pure-layout-email/css/layouts/email-old-ie.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5328">
-          <caret line="2" column="69" lean-forward="true" selection-start-line="2" selection-start-column="69" selection-end-line="2" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../pure-layout-email/css/layouts/email.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="262" column="20" selection-start-line="262" selection-start-column="20" selection-end-line="262" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../pure-layout-email/css/layouts/email-old-ie.css" />
+    <entry file="file://$PROJECT_DIR$/../../../../pure-layout-email/css/layouts/email.css" />
     <entry file="file://$PROJECT_DIR$/es/templates/es_search.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
@@ -573,17 +542,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/run_es.py.py">
+    <entry file="file://$PROJECT_DIR$/../../../../pure-layout-email/index.html" />
+    <entry file="file://$PROJECT_DIR$/../../../../pure-layout-marketing/index.html" />
+    <entry file="file://$PROJECT_DIR$/es/templates/es_home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../pure-layout-email/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1083">
-          <caret line="150" column="4" lean-forward="true" selection-start-line="150" selection-start-column="4" selection-end-line="150" selection-end-column="4" />
+        <state relative-caret-position="228">
+          <caret line="33" column="68" selection-start-line="33" selection-start-column="68" selection-end-line="33" selection-end-column="68" />
         </state>
       </provider>
     </entry>
@@ -594,31 +558,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../pure-layout-marketing/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="175" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/es/templates/es_index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="28" column="33" lean-forward="true" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
+        <state relative-caret-position="361">
+          <caret line="31" column="51" lean-forward="true" selection-start-line="31" selection-start-column="51" selection-end-line="31" selection-end-column="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/es/templates/es_home.html">
+    <entry file="file://$PROJECT_DIR$/run_es.py.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="33" column="68" selection-start-line="33" selection-start-column="68" selection-end-line="33" selection-end-column="68" />
+        <state relative-caret-position="76">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/es/es_routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-19">
-          <caret line="17" column="78" lean-forward="true" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="78" />
+        <state relative-caret-position="302">
+          <caret line="60" column="29" lean-forward="true" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

@@ -44,15 +44,14 @@ def search(index):
     else:
         return render_template('es_search.html', results=None, form=form)
 
-@elastic.route('/register', methods=['GET','POST'])
+@elastic.route('/index/register', methods=['GET','POST'])       # 에러,, 갑자기 404 에러 뜸, /register 에서 에러, /r 하니 에러 사라지고 그후 url 수정함
 def register():
-    print('1?')
     form = File_Form(request.form)
     if request.method == "POST":
         file = request.files['file']
         if not file or file.filename == "":
             flash('파일을 확인해주세요.')
-            return render_template("db_register.html", form=form)
+            return render_template("es_register.html", form=form)
         else:
             filename = secure_filename(file.filename)
             file.save(os.path.join('es/data/', filename))
@@ -60,10 +59,11 @@ def register():
             data.upload_data()
             flash(file.filename)
             flash('등록되었습니다.')
-            return render_template('db_register.html', form=form)
+            return render_template('es_register.html', form=form)
     else:
         flash('파일을 등록해주십시오')
-        return render_template('db_register.html', form=form)
+        return render_template('es_register.html', form=form)
+
 
 @elastic.route('/country/<string:index>', methods=['GET','POST'])
 def country(index):
