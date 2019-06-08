@@ -26,15 +26,12 @@ def index(index,number):
         results = es.get(index=index, doc_type="patent", id=id)
         data.append(results)
     if request.method == "POST":
-        if index == form.index.data:
-            data=Data_handler(index,"patent")
-            data.delete_index()
-            return redirect(url_for('elastic.home'))
-        else:
-            flash('Check the name of the index')
-            return render_template('es_index.html', data=data, n=len(data), form=form)
+        data=Data_handler(index,"patent")
+        data.delete_index()
+        return redirect(url_for('elastic.home'))
     else:
-        return render_template('es_index.html', data=data, n = len(data), form=form)
+        print(data)
+        return render_template('es_index.html', data=data, n = len(data), form=form, index=index)
 
 @elastic.route('/search/<string:index>', methods=['GET', 'POST'])
 def search(index):
@@ -49,6 +46,7 @@ def search(index):
 
 @elastic.route('/register', methods=['GET','POST'])
 def register():
+    print('1?')
     form = File_Form(request.form)
     if request.method == "POST":
         file = request.files['file']
@@ -67,7 +65,7 @@ def register():
         flash('파일을 등록해주십시오')
         return render_template('db_register.html', form=form)
 
-@elastic.route('/<string:index>/country', methods=['GET','POST'])
+@elastic.route('/country/<string:index>', methods=['GET','POST'])
 def country(index):
     data=Data_handler(index, "patent")
     country_name, counts = data.country_data()
