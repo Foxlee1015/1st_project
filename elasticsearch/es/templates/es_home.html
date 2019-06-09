@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
 
     <!--[if lte IE 8]>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='marketing-old-ie.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='marketing-old-iehome.css') }}">
     <![endif]-->
     <!--[if gt IE 8]><!-->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='marketing.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='marketinghome.css') }}">
     <!--<![endif]-->
 
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
@@ -28,11 +28,10 @@
 
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="">Your Site</a>
+        <a class="pure-menu-heading" href="">Your Patents</a>
 
         <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Home</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Tour</a></li>
+            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
             <li class="pure-menu-item"><a href="#" class="pure-menu-link">Sign Up</a></li>
         </ul>
     </div>
@@ -49,44 +48,52 @@
 
 <div class="content-wrapper">
     <div class="content">
-        <h2 class="content-head is-center">Excepteur sint occaecat cupidatat.</h2>
+        <h2 class="content-head is-center">Explore Patents World</h2>
 
         <div class="pure-g">
             <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
 
                 <h3 class="content-subhead">
                     <i class="fa fa-rocket"></i>
-                    Get Started Quickly
+                    Index
                 </h3>
                 <p> {% if data: %}{% for i in range(n) %}<a href="/index/{{data[i]}}/size/10"><p>{{ data[i] }}</p></a>{% endfor %}{% else %}{% endif %}
 
                 </p>
             </div>
             <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                <a href="/index/register">
                 <h3 class="content-subhead">
                     <i class="fa fa-mobile"></i>
-                    Responsive Layouts
+                    Register new patents
                 </h3>
+                </a>
                 <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
+                    filename.csv / Edit Google sheet
                 </p>
             </div>
             <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                <a href="#">
                 <h3 class="content-subhead">
                     <i class="fa fa-th-large"></i>
-                    Modular
-                </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
+                    Search
+                </h3>>
+                </a>
+                    <p>
+                    Search a patent from your data.
+                    </p>
+
+
             </div>
             <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                <a href="/country">
                 <h3 class="content-subhead">
                     <i class="fa fa-check-square-o"></i>
-                    Plays Nice
+                    Graph
                 </h3>
+                </a>
                 <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
+                    Trends for the art from the past to now.
                 </p>
             </div>
         </div>
@@ -98,19 +105,19 @@
         </div>
         <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-3-5">
 
-            <h2 class="content-head content-head-ribbon">Laboris nisi ut aliquip.</h2>
+            <h2 class="content-head content-head-ribbon">What can I do?</h2>
 
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor.
+                1. You can add a new patent whenever you want and it automatically changes the trends graph.
+                </p>
+            <p>
+                2. You can search multiple patents from your keywords.
             </p>
         </div>
     </div>
 
     <div class="content">
-        <h2 class="content-head is-center">Dolore magna aliqua. Uis aute irure.</h2>
+        <h2 class="content-head is-center">Do you want to be a member of our website? Sing up right now!</h2>
 
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
@@ -135,16 +142,12 @@
             <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
                 <h4>Contact Us</h4>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.
+                    dh16931@gmail.com
                 </p>
 
                 <h4>More Information</h4>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                   Github: https://github.com/Foxlee1015/1st_project
                 </p>
             </div>
         </div>
@@ -152,7 +155,7 @@
     </div>
 
     <div class="footer l-box is-center">
-        View the source of this layout to learn more. Made with love by the YUI Team.
+        Welcome to patent search engine and trends
     </div>
 
 </div>

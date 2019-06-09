@@ -51,7 +51,7 @@ def register():
         file = request.files['file']
         if not file or file.filename == "":
             flash('파일을 확인해주세요.')
-            return render_template("es_register.html", form=form)
+            return render_template("es_rg.html", form=form)
         else:
             filename = secure_filename(file.filename)
             file.save(os.path.join('es/data/', filename))
@@ -59,10 +59,10 @@ def register():
             data.upload_data()
             flash(file.filename)
             flash('등록되었습니다.')
-            return render_template('es_register.html', form=form)
+            return render_template('es_rg.html', form=form)
     else:
         flash('파일을 등록해주십시오')
-        return render_template('es_register.html', form=form)
+        return render_template('es_rg.html', form=form)
 
 
 @elastic.route('/country/<string:index>', methods=['GET','POST'])
