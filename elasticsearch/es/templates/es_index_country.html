@@ -41,10 +41,6 @@
 <p> 현재 접속자
 </p>
 </div>
-<ul id="messages"></ul>
-<input type="text" id="myMessage">
-<button id="sendbutton">Send</button>
-
 <div>
 <p>검토의견</p>
 </div>
@@ -115,6 +111,6 @@ svg.append("text")
     <h1>Chat: {{ index }}</h1>
     <textarea id="chat" cols="80" rows="20"></textarea><br><br>
     <input id="text" size="80" placeholder="Enter your message here"><br><br>
-    <a href="#" onclick="leave_room();">Leave this room</a>
+    <a href="/room" onclick="leave_room();">Leave this room</a>
 </body>
 </html>

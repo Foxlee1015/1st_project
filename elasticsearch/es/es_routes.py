@@ -69,15 +69,15 @@ def register():
 
 @elastic.route('/country/<string:index>', methods=['GET','POST'])
 def country(index):
-    #if session['name']:
-    data=Data_handler(index, "patent")
-    country_name, counts = data.country_data()
-    user_list  = []
-    name = session.get('name', '')
-    room = session.get('room', '')
-    return render_template('es_index_country.html', country_name=country_name, index=index, counts=counts, name=name, room=room)
-    #else:
-    #    return redirect(url_for('elastic.room'), index=index)
+    try:
+        data=Data_handler(index, "patent")
+        country_name, counts = data.country_data()
+        name = session.get('name', '')
+        room = session.get('room', '')
+        print(session['name'])
+        return render_template('es_index_country.html', country_name=country_name, index=index, counts=counts, name=name, room=room)
+    except:
+        return redirect(url_for('elastic.room'))
 
 @elastic.route('/country', methods=['GET','POST'])
 def country_all():
@@ -102,7 +102,6 @@ def room():
     if request.method == 'POST':
         session['name'] = form.name.data
         session['room'] = form.room.data
-        print(form.room.data)
         return redirect(url_for('elastic.country', index=form.room.data))
     elif request.method == 'GET':
         form.name.data = session.get('name', '')
