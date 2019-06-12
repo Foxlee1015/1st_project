@@ -1,10 +1,12 @@
 import os
-from flask import request, render_template, flash, url_for, redirect, Blueprint
+import pandas as pd
+from flask import session, request, render_template, flash, url_for, redirect, Blueprint
 from elasticsearch import Elasticsearch
 from es.es_methods import Data_handler   # data = 디렉토리, es_class = 파일명(py), Data_handler = 클래스
-from es.forms.forms import Search_Form, File_Form, Submit_Form
+from es.forms.forms import Search_Form, File_Form, Submit_Form, LoginForm
 from werkzeug.utils import secure_filename
-import numpy as np
+from es.events import joined, text, left
+
 
 elastic = Blueprint('elastic', __name__)
 es = Elasticsearch('http://localhost:9200')
@@ -69,7 +71,9 @@ def register():
 def country(index):
     data=Data_handler(index, "patent")
     country_name, counts = data.country_data()
-    return render_template('es_index_country.html', country_name=country_name, counts=counts)
+    user_list  = []
+
+    return render_template('es_index_country.html', country_name=country_name, counts=counts, user_list=user_list)
 
 @elastic.route('/country', methods=['GET','POST'])
 def country_all():
@@ -81,4 +85,32 @@ def country_all():
         y.append([x[i], country_name, counts])
     return render_template('es_country.html', y=y)
 
+@elastic.route('/excel/<string:index>')
+def excel(index):
+    df = pd.read_csv("es/data/{0}.csv".format(index))
+    return df.to_html()
 
+
+@elastic.route('/room', methods=['GET', 'POST'])
+def room():
+    """Login form to enter a room."""
+    form = LoginForm(request.form)
+    if request.method == 'POST':
+        session['name'] = form.name.data
+        session['room'] = form.room.data
+        return redirect(url_for('.chat'))
+    elif request.method == 'GET':
+        form.name.data = session.get('name', '')
+        form.room.data = session.get('room', '')
+    return render_template('room.html', form=form)
+
+
+@elastic.route('/chat')
+def chat():
+    """Chat room. The user's name and room must be stored in
+    the session."""
+    name = session.get('name', '')
+    room = session.get('room', '')
+    if name == '' or room == '':
+        return redirect(url_for('.index'))
+    return render_template('chat.html', name=name, room=room)
